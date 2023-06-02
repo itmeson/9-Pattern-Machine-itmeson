@@ -4,6 +4,9 @@ const columns = document.getElementById("columns");
 const submitbutton = document.getElementById("submit");
 const colorchoice = document.getElementById("colorchoice");
 const gridofboxes = document.getElementById("gridofboxes");
+const downloadButton = document.getElementById('download');
+downloadButton.addEventListener('click', downloadImage);
+
 
 //event listener that listens to the submit button, and calls the makegrid
 submitbutton.addEventListener("click", makeGrid);
@@ -75,4 +78,22 @@ function selectAllByColor(event) {
       }
     }
   }
+}
+
+function downloadImage() {
+  let gridElement = document.getElementById('gridofboxes'); // get the element that contains your grid
+
+  html2canvas(gridElement).then(function(canvas) {
+    // Create an image element
+    let imgElement = document.createElement('a');
+    
+    // Set its href attribute to the image data
+    imgElement.href = canvas.toDataURL('image/png');
+    
+    // Set the download attribute to specify a filename
+    imgElement.download = 'grid.png';
+
+    // Trigger a click event to start the download
+    imgElement.click();
+  });
 }
