@@ -52,7 +52,7 @@ function makeGrid() {
       newBox.style.backgroundColor = newColor;
       newBox.addEventListener("click", changeColor);
       newBox.addEventListener("mouseover", changeColor);
-      //newBox.addEventListener("dblclick", selectAllByColor);
+      newBox.addEventListener("mousedown", changeColorPicker);
     }
   }
 }
@@ -127,6 +127,8 @@ function addRow() {
       newBox.style.backgroundColor = newColor;
       newBox.addEventListener("click", changeColor);
       newBox.addEventListener("mouseover", changeColor);
+      newBox.addEventListener("mousedown", changeColorPicker);
+
   }
 
   // Append the new row to the grid
@@ -159,6 +161,8 @@ function addColumn() {
       newBox.style.backgroundColor = newColor;
       newBox.addEventListener("click", changeColor);
       newBox.addEventListener("mouseover", changeColor);
+      newBox.addEventListener("mousedown", changeColorPicker);
+
   }
 }
 
@@ -173,4 +177,32 @@ function removeColumn() {
           currentRow.removeChild(currentRow.lastChild);
       }
   }
+}
+
+function changeColorPicker(event) {
+  // Check if the control key was pressed during the mousedown event
+  if (event.ctrlKey) {
+      // Set the color picker to the color of the clicked box
+      colorchoice.value = rgbToHex(event.target.style.backgroundColor);
+    }
+}
+
+function rgbToHex(rgb) {
+  // Choose correct sequence
+  let sep = rgb.indexOf(",") > -1 ? "," : " ";
+  // Turn "rgb(r, g, b)" into [r, g, b]
+  rgb = rgb.substr(4).split(")")[0].split(sep);
+
+  let r = (+rgb[0]).toString(16),
+      g = (+rgb[1]).toString(16),
+      b = (+rgb[2]).toString(16);
+
+  if (r.length == 1)
+      r = "0" + r;
+  if (g.length == 1)
+      g = "0" + g;
+  if (b.length == 1)
+      b = "0" + b;
+
+  return "#" + r + g + b;
 }
