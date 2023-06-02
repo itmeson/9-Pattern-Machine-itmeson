@@ -11,6 +11,16 @@ downloadButton.addEventListener('click', downloadImage);
 //event listener that listens to the submit button, and calls the makegrid
 submitbutton.addEventListener("click", makeGrid);
 
+const addRowButton = document.getElementById("add-row");
+const removeRowButton = document.getElementById("remove-row");
+const addColumnButton = document.getElementById("add-column");
+const removeColumnButton = document.getElementById("remove-column");
+
+addRowButton.addEventListener("click", addRow);
+removeRowButton.addEventListener("click", removeRow);
+addColumnButton.addEventListener("click", addColumn);
+removeColumnButton.addEventListener("click", removeColumn);
+
 
 //function to make the grid of boxes
 function makeGrid() {
@@ -96,4 +106,71 @@ function downloadImage() {
     // Trigger a click event to start the download
     imgElement.click();
   });
+}
+
+function addRow() {
+  const numRows = parseInt(rows.value);
+  rows.value = numRows + 1;
+  const newColor = colorchoice.value;
+
+  // Create a new row
+  let newRow = document.createElement('div');
+  newRow.classList.add('row');
+  newRow.setAttribute('id', `row${numRows}`);
+
+  // Add boxes to the new row
+  for (let j=0; j < columns.value; j++) {
+      let newBox = document.createElement('div');
+      newBox.classList.add('box');
+      newBox.setAttribute('id', `box${numRows}${j}`);
+      newRow.appendChild(newBox); 
+      newBox.style.backgroundColor = newColor;
+      newBox.addEventListener("click", changeColor);
+      newBox.addEventListener("mouseover", changeColor);
+  }
+
+  // Append the new row to the grid
+  gridofboxes.appendChild(newRow);
+}
+
+function removeRow() {
+  const numRows = parseInt(rows.value) - 1;
+  rows.value = numRows > 0 ? numRows : 1;
+  
+  if (numRows >= 0) {
+      // Remove the last row
+      gridofboxes.removeChild(gridofboxes.lastChild);
+  }
+}
+
+function addColumn() {
+  const numColumns = parseInt(columns.value);
+  columns.value = numColumns + 1;
+  const newColor = colorchoice.value;
+
+  // Loop through each row and add a new box
+  for (let i=0; i < rows.value; i++) {
+      let currentRow = document.getElementById(`row${i}`);
+      
+      let newBox = document.createElement('div');
+      newBox.classList.add('box');
+      newBox.setAttribute('id', `box${i}${numColumns}`);
+      currentRow.appendChild(newBox);
+      newBox.style.backgroundColor = newColor;
+      newBox.addEventListener("click", changeColor);
+      newBox.addEventListener("mouseover", changeColor);
+  }
+}
+
+function removeColumn() {
+  const numColumns = parseInt(columns.value) - 1;
+  columns.value = numColumns > 0 ? numColumns : 1;
+
+  if (numColumns >= 0) {
+      // Loop through each row and remove the last box
+      for (let i=0; i < rows.value; i++) {
+          let currentRow = document.getElementById(`row${i}`);
+          currentRow.removeChild(currentRow.lastChild);
+      }
+  }
 }
