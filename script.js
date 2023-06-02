@@ -39,16 +39,40 @@ function makeGrid() {
       newBox.style.backgroundColor = newColor;
       newBox.addEventListener("click", changeColor);
       newBox.addEventListener("mouseover", changeColor);
+      //newBox.addEventListener("dblclick", selectAllByColor);
     }
   }
 }
 
 // function to change the color of  a box when I click on it
 function changeColor(event) {
+  //console.log("changing color", event.target.id);
   // read the current color in the colorpicker
   const newColor = colorchoice.value;
-  if (event.type === "click" || (event.type === "mouseover" && event.buttons === 1 )) {
+  if (event.type === "click" && event.shiftKey) {
+    selectAllByColor(event);
+  }
+  else if (event.type === "click" || (event.type === "mouseover" && event.buttons === 1 )) {
     //change the target color
     event.target.style.backgroundColor = newColor;
+  }
+}
+
+function selectAllByColor(event) {
+  console.log("selecting by color");
+  const numRows = rows.value;
+  const numColumns = columns.value;
+  console.log("rows and columns are: ", numRows, numColumns)
+  const oldColor = event.target.style.backgroundColor;
+
+  for (let i=0; i<numRows; i++) {
+    for (let j=0; j<numColumns; j++) {
+      let currentBox = document.getElementById(`box${i}${j}`);
+      console.log(i, j, event.target.id, currentBox.id);
+
+      if (oldColor == currentBox.style.backgroundColor) {
+        currentBox.style.backgroundColor = colorchoice.value;
+      }
+    }
   }
 }

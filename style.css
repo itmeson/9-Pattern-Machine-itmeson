@@ -8,9 +8,10 @@ html {
   max-height: 100px;
   width: 5%;
   aspect-ratio: 1/1;
-  /*border: 1px solid black;*/
+  border: 1px solid black;
 }
 
 .row {
   display: flex;
 }
+
